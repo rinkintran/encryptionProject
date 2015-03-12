@@ -4,10 +4,13 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.Random;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -40,6 +43,8 @@ public class CaesarGUI extends JFrame implements ActionListener {
                 //A hash map takes keys and values, which are both Characters in this case.
                 HashMap<Character, Character> alphaMap = new HashMap<Character, Character>();
                 int shift;
+                int randomshift;
+                Random randomo = new Random();
                 //Get the text from the app and store it in a String variable.
                 String textNum = this.shiftFactor.getText();
                 //Check to see if a "Shift Factor" value was entered.
@@ -53,10 +58,13 @@ public class CaesarGUI extends JFrame implements ActionListener {
                 	}
                 	
                 	shift = Integer.parseInt(textNum)%63;
-                
+                	randomo.setSeed(shift);
+                	randomshift = Math.abs(randomo.nextInt()%63);
+                	System.out.println(randomshift);
+                	
                 	//Map every letter of the alphabet to another letter in the alphabet, shifted by x places.
                 	for(int i=0; i<alphabet.length(); i++){
-                        alphaMap.put(alphabet.charAt(i), alphabet.charAt((i+shift)%63));
+                        alphaMap.put(alphabet.charAt(i), alphabet.charAt((i+randomshift)%63));
                 	}
                 	//Get input text and put it all to lower-case so it's easy to convert
                 	String inputText = inputTA.getText().toLowerCase();
@@ -78,6 +86,8 @@ public class CaesarGUI extends JFrame implements ActionListener {
         public void decryptText() throws InterruptedException{
         		HashMap<Character, Character> alphaMap = new HashMap<Character, Character>();
                 int shift;
+                int randomshift;
+                Random randomo = new Random();
                 String textNum = this.shiftFactor.getText();
                 
                 try {
@@ -88,10 +98,12 @@ public class CaesarGUI extends JFrame implements ActionListener {
                 	}
                 	
                 	shift = Integer.parseInt(textNum)%63;
+                	randomo.setSeed(shift);
+                	randomshift = Math.abs(randomo.nextInt()%63);
+                	System.out.println(randomshift);
                 	
-                	shift = Integer.parseInt(textNum)%63;
                 	for(int i=0; i<alphabet.length(); i++){
-                        alphaMap.put(alphabet.charAt((i+shift)%63), alphabet.charAt(i));
+                        alphaMap.put(alphabet.charAt((i+randomshift)%63), alphabet.charAt(i));
                 	}
                 	String inputText = inputTA.getText().toLowerCase();
                 	String outputText = "";
